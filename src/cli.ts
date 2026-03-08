@@ -49,7 +49,7 @@ import {
   apiKeysRevoke,
 } from "./commands/api-keys.js";
 
-const VERSION = "0.1.2";
+const VERSION = "0.1.3";
 
 const HELP = `
 stablecoin v${VERSION}
