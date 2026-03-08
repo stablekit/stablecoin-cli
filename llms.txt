@@ -1,0 +1,55 @@
+Stablecoin CLI
+Scriptable CLI for the Stablecoin API covering payments, wallets, balances, apps, projects, contracts, compliance workflows, and API key management.
+
+Install: npm install -g @stablecoin/cli
+Auth: set STABLECOIN_API_KEY, or run stablecoin config set-key <api-key>, or pass --api-key <key>.
+Environment: sandbox by default. Override with STABLECOIN_ENV or --env sandbox|production.
+Global flags: --json for machine-readable output, --env sandbox|production, --api-key <key>.
+Exit codes: 0 on success, 1 on error. Errors are printed to stderr.
+Agent guidance: prefer --json, use --api-key for ephemeral auth, validate mutating commands in sandbox before production.
+
+config set-key <api-key>: Save an API key to ~/.stablecoin/config.json.
+config set-env <sandbox|production>: Save the default environment.
+config show: Print the current config with the API key partially redacted.
+
+payments create --amount <amount> --stablecoin <USDC|USDT|DAI> --to <address> --chain <chain>: Create a payment.
+payments get <payment-id>: Fetch one payment.
+payments list: List payments.
+
+wallets create --chain <ethereum|polygon|base|solana> [--label <name>]: Create a wallet.
+wallets get <wallet-id>: Fetch one wallet.
+wallets list: List wallets.
+wallets balances <wallet-id>: List balances for one wallet.
+
+balances: List balances across all wallets.
+
+apps list: List apps.
+apps get <app-id>: Fetch one app.
+apps create --name <name> [--template <slug>] [--description <text>]: Create an app.
+apps deploy <app-id> [--env sandbox|staging|production]: Deploy an app.
+apps delete <app-id>: Delete an app.
+apps templates: List app templates.
+
+projects list: List projects.
+projects get <project-id>: Fetch one project.
+projects create --name <name> [--description <text>]: Create a project.
+projects delete <project-id>: Delete a project.
+projects deployments list <project-id>: List deployments for a project.
+
+contracts generate --spec <json|@file.json> [--style minimal|production|auditable]: Generate Solidity from a spec.
+contracts validate --source <solidity|@file.sol> [--contract-name <name>] [--min-score <0-100>]: Validate a contract.
+contracts compile --source <solidity|@file.sol> [--contract-name <name>] [--compiler <version>] [--optimizer-runs <n>]: Compile a contract.
+contracts simulate --source <solidity|@file.sol> [--contract-name <name>] [--chain base|base-sepolia]: Simulate a contract.
+contracts deploy --abi <json|@file.json> --bytecode <hex> [--chain base|base-sepolia]: Deploy a compiled contract.
+contracts launch --spec <json|@file.json> [--style minimal|production|auditable] [--chain base|base-sepolia] [--deploy false]: Generate, validate, compile, and deploy a contract.
+contracts verify --address <0x...> --chain <base|base-sepolia> --source <solidity|@file.sol> --contract-name <name>: Verify a deployed contract.
+
+compliance approvals list [--my-queue] [--status pending|approved|rejected|expired|cancelled]: List approval requests.
+compliance approvals get <approval-id>: Fetch one approval request.
+compliance approvals create --chain <chain-id> --risk-score <0-100> [--risk-level low|medium|high|critical] [--estimated-cost <amount>] [--required-approvals <n>] [--deadline-hours <n>]: Create an approval request.
+compliance approvals decide <approval-id> --action approve|approve_conditional|reject [--comment <text>] [--conditions <csv>]: Decide an approval request.
+compliance licenses list [--status <status>]: List licenses.
+
+api-keys list [--env sandbox|production]: List API keys.
+api-keys create --name <name> --tier basic|professional|enterprise [--env sandbox|production] [--expires-in 30d|90d|1y]: Create an API key.
+api-keys revoke <api-key-id> [--env sandbox|production]: Revoke an API key.

@@ -1,0 +1,47 @@
+{
+  "name": "@stablecoin/cli",
+  "version": "0.1.1",
+  "description": "CLI for the Stablecoin Platform API",
+  "type": "module",
+  "bin": {
+    "stablecoin": "./dist/cli.js"
+  },
+  "main": "./dist/cli.js",
+  "types": "./dist/cli.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "stablecoin",
+    "payments",
+    "web3",
+    "cli"
+  ],
+  "author": "Social Protocol Labs LLC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stablekit/stablecoin-cli.git"
+  },
+  "bugs": "https://github.com/stablekit/stablecoin-cli/issues",
+  "homepage": "https://github.com/stablekit/stablecoin-cli#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@stablecoin/sdk": "0.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
