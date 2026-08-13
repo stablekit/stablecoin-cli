@@ -1,23 +1,27 @@
 {
   "name": "@stablecoin/cli",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "CLI for the Stablecoin Platform API",
   "type": "module",
   "bin": {
-    "stablecoin": "./dist/cli.js"
+    "stablecoin": "dist/cli.js"
   },
   "main": "./dist/cli.js",
   "types": "./dist/cli.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "test:bin": "node --test test/bin-smoke.test.mjs",
+    "verify": "npm run typecheck && npm test && npm run build && npm run test:bin",
     "clean": "rm -rf dist",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run verify"
   },
   "keywords": [
     "stablecoin",
@@ -27,21 +31,29 @@
   ],
   "author": "Social Protocol Labs LLC",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stablekit/stablecoin-cli.git"
+    "url": "git+https://github.com/stablekit/stablecoin-cli.git"
   },
-  "bugs": "https://github.com/stablekit/stablecoin-cli/issues",
+  "bugs": {
+    "url": "https://github.com/stablekit/stablecoin-cli/issues"
+  },
   "homepage": "https://github.com/stablekit/stablecoin-cli#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
+    "@stablecoin/gateway-contract": "0.1.1",
     "@stablecoin/sdk": "0.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "tsup": "^8.0.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.0.0"
   }
 }

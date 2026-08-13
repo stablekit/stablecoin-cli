@@ -47,6 +47,37 @@ stablecoin compliance approvals list --my-queue --json
 stablecoin api-keys create --name ci --tier professional --env sandbox --json
 ```
 
+## Gateway Capabilities
+
+The CLI reads gateway capability definitions from `@stablecoin/gateway-contract`. The CLI does not maintain a separate route or schema list.
+
+```bash
+# list capabilities
+stablecoin capabilities list
+
+# inspect one capability and its schemas
+stablecoin capabilities describe providers_registry --json
+
+# invoke a capability with inline JSON
+stablecoin capabilities invoke providers_registry \
+  --input '{"category":"sanctions_screening","environment":"sandbox"}' \
+  --json
+
+# invoke a capability with JSON from a file
+stablecoin capabilities invoke providers_matching --input @query.json --json
+
+# get corridor workflow status
+stablecoin capabilities invoke payments_corridor_workflow_status \
+  --input '{"workflowRunId":"wf_run_example"}' \
+  --json
+```
+
+A harness such as Pi can run these commands through its shell tool. This path uses the same capability registry and schemas as MCP. A CLI smoke test is not an MCP interoperability test.
+
+The generic `capabilities` command is the stable script interface for the gateway allowlist. Existing named commands remain a separate legacy surface.
+
+`--json` writes the API response to standard output. Errors go to standard error. An invalid command or input returns exit code `2`. An API, authentication, network, timeout, or output-validation error returns exit code `1`.
+
 ## Command Reference
 
 | Group | Description | Example |
@@ -59,6 +90,7 @@ stablecoin api-keys create --name ci --tier professional --env sandbox --json
 | `contracts` | Generate, validate, compile, simulate, deploy, launch, and verify contracts. | `stablecoin contracts validate --source @Token.sol --json` |
 | `compliance` | List, create, inspect, and decide approvals plus list licenses. | `stablecoin compliance approvals list --status pending --json` |
 | `api-keys` | List, create, and revoke API keys. | `stablecoin api-keys list --env sandbox --json` |
+| `capabilities` | List, inspect, and invoke the read-only gateway allowlist. | `stablecoin capabilities list --json` |
 | `config` | Store local auth and environment defaults. | `stablecoin config show` |
 
 ## Global Flags
@@ -79,7 +111,7 @@ stablecoin api-keys create --name ci --tier professional --env sandbox --json
 | --- | --- |
 | `STABLECOIN_API_KEY` | Bearer token for the SDK and CLI. Treat this like a secret. |
 | `STABLECOIN_ENV` | Environment override for sandbox or production flows. |
-| `STABLECOIN_BASE_URL` | Optional API base URL override for local or preview environments. |
+| `STABLECOIN_BASE_URL` | Optional API base URL override. Use HTTPS for remote services. The CLI permits HTTP only for loopback development. |
 
 ## `create-stablecoin-app`
 

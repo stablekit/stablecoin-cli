@@ -27,6 +27,7 @@ These are safe by default because they only read data or run local analysis:
 - `contracts generate`, `contracts validate`, `contracts compile`, `contracts simulate`
 - `compliance approvals list`, `compliance approvals get`, `compliance licenses list`
 - `api-keys list`
+- `capabilities list`, `capabilities describe`, `capabilities invoke`
 
 ## Requires Confirmation
 
@@ -63,3 +64,7 @@ Validate mutating flows in `sandbox` before production. If a user asks for produ
   - `stablecoin compliance approvals list --my-queue --json`
 - "Create a short-lived sandbox API key"
   - `stablecoin api-keys create --name ci --tier professional --env sandbox --expires-in 30d --json`
+- "List the read-only agent gateway capabilities"
+  - `stablecoin capabilities list --json`
+- "Find eligible KYC providers in sandbox"
+  - `stablecoin capabilities invoke providers_matching --input '{"category":"kyc_verification","environment":"sandbox"}' --json`

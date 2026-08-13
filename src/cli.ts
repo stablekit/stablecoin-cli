@@ -48,8 +48,9 @@ import {
   apiKeysCreate,
   apiKeysRevoke,
 } from "./commands/api-keys.js";
+import { runCapabilitiesCommand } from "./commands/capabilities.js";
 
-const VERSION = "0.1.3";
+const VERSION = "0.2.0";
 
 const HELP = `
 stablecoin v${VERSION}
@@ -141,6 +142,11 @@ Commands:
     --tier basic|professional|enterprise
     --env sandbox|production
   api-keys revoke <id>         Revoke an API key
+
+  capabilities list            List CLI-exposed gateway capabilities
+  capabilities describe <id>   Show one capability contract
+  capabilities invoke <id>     Invoke one capability
+    --input <json|@file.json>  Provide a JSON object (default: {})
 
 Environment variables:
   STABLECOIN_API_KEY    API key (overrides config file)
@@ -325,6 +331,12 @@ async function main() {
             console.log(HELP);
             return;
         }
+
+      case "capabilities": {
+        const exitCode = await runCapabilitiesCommand(args.slice(1));
+        if (exitCode !== 0) process.exitCode = exitCode;
+        return;
+      }
 
       case "--version":
       case "-v":

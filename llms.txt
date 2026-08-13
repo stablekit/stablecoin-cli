@@ -5,8 +5,12 @@ Install: npm install -g @stablecoin/cli
 Auth: set STABLECOIN_API_KEY, or run stablecoin config set-key <api-key>, or pass --api-key <key>.
 Environment: sandbox by default. Override with STABLECOIN_ENV or --env sandbox|production.
 Global flags: --json for machine-readable output, --env sandbox|production, --api-key <key>.
-Exit codes: 0 on success, 1 on error. Errors are printed to stderr.
+Exit codes: 0 on success, 1 on API or network error, and 2 on invalid command or input. Errors are printed to stderr.
 Agent guidance: prefer --json, use --api-key for ephemeral auth, validate mutating commands in sandbox before production.
+
+capabilities list: List the read-only gateway capabilities.
+capabilities describe <capability-id>: Print the route and schemas for one capability.
+capabilities invoke <capability-id> --input <json|@file.json>: Validate input, call the fixed route, and validate the response.
 
 config set-key <api-key>: Save an API key to ~/.stablecoin/config.json.
 config set-env <sandbox|production>: Save the default environment.
