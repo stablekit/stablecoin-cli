@@ -24,6 +24,7 @@ The CLI defaults to `sandbox` unless `STABLECOIN_ENV`, `stablecoin config set-en
 - Default output is human-readable tables or plain text.
 - `--json` emits machine-readable JSON. Agents should prefer this mode.
 - Errors go to `stderr` with exit code `1`.
+- Invalid commands and invalid gateway inputs exit with code `2`.
 - Successful commands exit with code `0`.
 
 ## Global Flags
@@ -141,3 +142,12 @@ The CLI defaults to `sandbox` unless `STABLECOIN_ENV`, `stablecoin config set-en
   - Creates an API key
 - `stablecoin api-keys revoke <api-key-id> [--env sandbox|production]`
   - Revokes an API key
+
+### `capabilities`
+
+- `stablecoin capabilities list`
+  - Lists the read-only gateway capabilities
+- `stablecoin capabilities describe <capability-id>`
+  - Prints the route and schemas for one capability
+- `stablecoin capabilities invoke <capability-id> --input <json|@file.json>`
+  - Validates the input, calls the fixed route, and validates the response

@@ -15,8 +15,10 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-      - run: npm install
-      - run: npm run build
+      - name: Check release tag
+        run: test "v$(node -p \"require('./package.json').version\")" = "$GITHUB_REF_NAME"
+      - run: npm ci
+      - run: npm run verify
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
